@@ -5,7 +5,8 @@ ObjectId = Schema.ObjectId;
 var ProductSchema = new Schema({
 	name: String,
 	status: String,
-	leads: [ObjectId]
+	leads: [ObjectId],
+	winner_lead : ObjectId
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

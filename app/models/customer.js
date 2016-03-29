@@ -4,6 +4,8 @@ ObjectId = Schema.ObjectId;
 
 var CustomerSchema = new Schema({
 	name: String,
+	email: String,
+	status: String,
 	leads: [ObjectId]
 });
 

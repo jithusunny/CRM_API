@@ -4,6 +4,7 @@ ObjectId = Schema.ObjectId;
 
 var LeadSchema = new Schema({
 	status: String,
+	type: String,
 	agent: ObjectId,
 	customer: ObjectId,
 	product:ObjectId
