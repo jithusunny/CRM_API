@@ -9,7 +9,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/Zefo');
+
+var config = require('./config.js');
+mongoose.connect(config.db.development);
 
 require('./routes/index')(app);
 
