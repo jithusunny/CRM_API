@@ -41,14 +41,16 @@ router.route('/agents/:agent_id')
 	Agent.findById(req.params.agent_id, function(err, agent){
 		if (err)
 			res.send(err);
-		agent.name = req.body.name;
-		agent.email = req.body.email;
+		if(agent) {
+			agent.name = req.body.name;
+			agent.email = req.body.email;
 
-		agent.save(function(err) {
-			if(err)
-				res.send(err);
-			res.json({message: "Agent updated!"});
-		});
+			agent.save(function(err) {
+				if(err)
+					res.send(err);
+				res.json({message: "Agent updated!"});
+			});
+		}
 	});
 })
 

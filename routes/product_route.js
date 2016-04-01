@@ -42,14 +42,16 @@ router.route('/products/:product_id')
 	Product.findById(req.params.product_id, function(err, product){
 		if (err)
 			res.send(err);
-		product.name = req.body.name;
-		product.status = req.body.status;
+		if(product) {
+			product.name = req.body.name;
+			product.status = req.body.status;
 
-		product.save(function(err) {
-			if(err)
-				res.send(err);
-			res.json({message: "Product updated!"});
-		});
+			product.save(function(err) {
+				if(err)
+					res.send(err);
+				res.json({message: "Product updated!"});
+			});
+		}
 	});
 })
 

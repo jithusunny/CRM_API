@@ -32,18 +32,24 @@ router.route('/leads')
 		Product.findById(req.body.product_id, function(err, product) {
 			if (err)
 				res.send(err);
-			product.leads.push(lead.id);
-			product.save();
+			if (product) {
+				product.leads.push(lead.id);
+				product.save();
+			}
 		});
 
 		Agent.findById(req.body.agent_id, function(err, agent) {
-			agent.leads.push(lead.id);
-			agent.save();
+			if (agent) {
+				agent.leads.push(lead.id);
+				agent.save();
+			}
 		});
 
 		Customer.findById(req.body.customer_id, function(err, customer) {
-			customer.leads.push(lead.id);
-			customer.save();
+			if (customer) {
+				customer.leads.push(lead.id);
+				customer.save();
+			}
 		});
 
 		res.json({message: "Lead created!"});
@@ -64,29 +70,31 @@ router.route('/leads/:lead_id')
 	Lead.findById(req.params.lead_id, function(err, lead){
 		if (err)
 			res.send(err);
-		lead.status = req.body.status;
-		lead.type = req.body.type;
+		if (lead) {
+			lead.status = req.body.status;
+			lead.type = req.body.type;
 
-		Product.findById(req.body.product_id, function(err, product) {
-			if (err)
-				res.send(err);
+			Product.findById(req.body.product_id, function(err, product) {
+				if (err)
+					res.send(err);
+				if (product) {
+					if (lead.status == 'done') {
+						product.winner_lead = lead.id;
+						product.status = 'unavailable';
+					}
 
-			if (lead.status == 'done') {
-				product.winner_lead = lead.id;
-				product.status = 'unavailable';
-			}
+					if (lead.status == 'cancelled')
+						product.status = 'unavailable';
+					product.save();
+				}
+			});
 
-			if (lead.status == 'cancelled')
-				product.status = 'unavailable';
-
-				product.save();
-		});
-
-		lead.save(function(err) {
-			if(err)
-				res.send(err);
-			res.json({message: "Lead updated!"});
-		});
+			lead.save(function(err) {
+				if(err)
+					res.send(err);
+				res.json({message: "Lead updated!"});
+			});
+		}
 	});
 })
 

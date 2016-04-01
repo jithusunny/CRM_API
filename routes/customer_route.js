@@ -41,14 +41,16 @@ router.route('/customers/:customer_id')
 	Customer.findById(req.params.customer_id, function(err, customer){
 		if (err)
 			res.send(err);
-		customer.name = req.body.name;
-		customer.email = req.body.email;
+		if (customer) {
+			customer.name = req.body.name;
+			customer.email = req.body.email;
 
-		customer.save(function(err) {
-			if(err)
-				res.send(err);
-			res.json({message: "Customer updated!"});
-		});
+			customer.save(function(err) {
+				if(err)
+					res.send(err);
+				res.json({message: "Customer updated!"});
+			});
+		}
 	});
 })
 
