@@ -3,6 +3,7 @@ module.exports = function(app) {
 	var router = express.Router();
 
 	var Product = require('../app/models/product');
+	var ObjectID = require('mongodb').ObjectID;
 
 //Handle requests for products
 router.route('/products')
@@ -16,6 +17,10 @@ router.route('/products')
 })
 
 .post(function(req, res) {
+	if (!req.body.name) {
+		res.json({Error: "Name of the Product is missing!"});
+		return;
+	}
 	var product = new Product();
 	product.name = req.body.name;
 	product.status = "available";
@@ -23,7 +28,7 @@ router.route('/products')
 	product.save(function(err) {
 		if (err)
 			res.send(err);
-		res.json({message: "Product created!"});
+		res.json({Message: "Product created!"});
 	});
 });
 
@@ -31,6 +36,11 @@ router.route('/products')
 router.route('/products/:product_id')
 
 .get(function(req, res) {
+	if (!ObjectID.isValid(req.params.product_id)) {
+		res.json({Error: "Invalid Product ID!"});
+		return;
+	}
+
 	Product.findById(req.params.product_id, function(err, product) {
 		if (err)
 			res.send(err);
@@ -39,27 +49,48 @@ router.route('/products/:product_id')
 })
 
 .put(function(req, res) {
+	if (!ObjectID.isValid(req.params.product_id)) {
+		res.json({Error: "Invalid Product ID!"});
+		return;
+	}
 	Product.findById(req.params.product_id, function(err, product){
-		if (err)
+		if (err) {
 			res.send(err);
-		if(product) {
+			return;
+		}
+		if(!product) {
+			res.json({Error: "Product not found!"});
+			return;
+		}
+
+		if (req.body.name)
 			product.name = req.body.name;
+		if (req.body.status)
 			product.status = req.body.status;
 
-			product.save(function(err) {
-				if(err)
-					res.send(err);
-				res.json({message: "Product updated!"});
-			});
-		}
+		product.save(function(err) {
+			if(err)
+				res.send(err);
+			res.json({Message: "Product updated!"});
+		});
 	});
 })
 
 .delete(function(req, res) {
+	if (!ObjectID.isValid(req.params.product_id)) {
+		res.json({Error: "Invalid Product ID!"});
+		return;
+	}
 	Product.remove({_id: req.params.product_id}, function(err, product){
-		if (err)
+		if (err) {
 			res.send(err);
-		res.json({message: "Product deleted!"});
+			return;
+		}
+		if(!product) {
+			res.json({Error: "Product not found!"});
+			return;
+		}
+		res.json({Message: "Product deleted!"});
 	});
 });
 

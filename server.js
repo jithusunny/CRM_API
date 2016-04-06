@@ -2,7 +2,6 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var async = require('async');
 
 //app will now use bodyParser() to extract data from POST request
 app.use(bodyParser.urlencoded({extended: true}));
