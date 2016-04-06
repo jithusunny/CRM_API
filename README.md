@@ -40,21 +40,21 @@ Leads
 * GET /api/leads/:lead_id 				- get lead
 * PUT /api/leads 						- update lead
 * DELETE /api/leads 					- delete lead
+```
 
-
-##Complete a sale/purchase:
+### Complete a sale/purchase:
 To complete a lead successfully, update(PUT) a lead with status 'done'
 - winner_lead field of corresponding Prodcut will be updated with the current lead that resulted in a successful deal.
 - Product status will move from 'available' to 'unavailable'.
 
-##Cancel a sale/purchase:
+### Cancel a sale/purchase:
 To cancel a lead, update(PUT) a lead with status 'cancelled':
 
-The states a product can be in:
+The states a Product can be in:
 * available
 * unavailable
 
-The states a lead can be in:
+The states a Lead can be in:
 * active
 * done
 * cancelled
