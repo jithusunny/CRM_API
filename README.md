@@ -59,3 +59,10 @@ The states a Lead can be in:
 * active
 * done
 * cancelled
+
+Types of Leads:
+* sale
+* purchase
+
+
+
