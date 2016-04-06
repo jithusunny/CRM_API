@@ -50,6 +50,7 @@ To complete a lead successfully, update(PUT) a lead with status 'done'
 ### Cancel a sale/purchase:
 To cancel a lead, update(PUT) a lead with status 'cancelled':
 
+### States
 The states a Product can be in:
 * available
 * unavailable
